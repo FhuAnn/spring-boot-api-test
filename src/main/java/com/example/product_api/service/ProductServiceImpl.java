@@ -3,7 +3,7 @@ package com.example.product_api.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.product_api.dto.CreateProductRequest;
+import com.example.product_api.dto.ExpenseDto;
 import com.example.product_api.dto.ProductResponse;
 import com.example.product_api.entity.Product;
 import com.example.product_api.mapper.ProductMapper;
@@ -20,7 +20,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public ProductResponse create(CreateProductRequest request) {
+    public ProductResponse create(ExpenseDto request) {
         // Product product = productMapper.toEntity(request);
         // Product savedProduct = productRepository.save(product);
         // return productMapper.toResponse(savedProduct);

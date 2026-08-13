@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.example.product_api.dto.CreateProductRequest;
+import com.example.product_api.dto.ExpenseDto;
 import com.example.product_api.dto.ProductResponse;
 import com.example.product_api.service.interfaces.IProductService;
 
@@ -37,7 +37,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductResponse> create(
-            @Valid @RequestBody CreateProductRequest request) {
+            @Valid @RequestBody ExpenseDto request) {
         ProductResponse product = productService.create(request);
 
         return ResponseEntity
