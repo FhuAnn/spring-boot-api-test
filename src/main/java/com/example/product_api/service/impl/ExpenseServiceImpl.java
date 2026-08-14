@@ -24,7 +24,13 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public List<ExpenseDTO> getAllExpenses() {
-        return null;
+        // Call the repository method
+        Long loggedInProfileId = authService.getLoggedInProfile().getId();
+        List<ExpenseEntity> list = expenseRepository.findByOwnerId(loggedInProfileId);
+        log.info("Printing the dataa from repositoru {}", list);
+        // Convert the list of expense entity to list of expense DTO
+        List<ExpenseDTO> expenseDTOList = list.stream().map(expenseEntity -> mapToExpenseDTO(expenseEntity)).toList();
+        return expenseDTOList;
     }
 
     /**
@@ -36,7 +42,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public ExpenseDTO getExpenseByExpenseId(String expenseId) {
-        return null;
+        ExpenseEntity expenseEntity = getExpenseEntity(expenseId);
+        log.info("Printing the expense entity details {}", expenseEntity);
+        return mapToExpenseDTO(expenseEntity);
     }
 
     /**

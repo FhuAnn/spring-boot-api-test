@@ -1,6 +1,7 @@
 package com.example.product_api.controller;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.product_api.dto.ExpenseDTO;
+import com.example.product_api.entity.ExpenseEntity;
+import com.example.product_api.entity.ProfileEntity;
 import com.example.product_api.io.ExpenseRequest;
 import com.example.product_api.io.ExpenseResponse;
+import com.example.product_api.repositories.ExpenseRepository;
 import com.example.product_api.service.ExpenseService;
 import com.example.product_api.service.impl.ExpenseServiceImpl;
 
@@ -23,7 +27,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RestController
@@ -42,20 +45,16 @@ public class ExpenseController {
         List<ExpenseDTO> list = expenseService.getAllExpenses();
         log.info("Printing the data from service {}", list);
         // Convert the Expense DTO to Expense Response
-        List<ExpenseResponse> response = list.stream().map(expenseDTO -> mapToExpenseResponse(expenseDTO))
+        return list.stream().map(expenseDTO -> mapToExpenseResponse(expenseDTO))
                 .collect(Collectors.toList());
-        return response;
     }
 
-    /**
-     * It will fetch the single expense from database
-     * 
-     * @param expenseId
-     * @return ExpenseResponse
-     */
     @GetMapping("/expenses/{expenseId}")
     public ExpenseResponse getExpenseById(@PathVariable String expenseId) {
-        return null;
+        log.info("API GET /expenses/{} called", expenseId);
+        ExpenseDTO expenseDTO = expenseService.getExpenseByExpenseId(expenseId);
+        log.info("Printing the expense details {}", expenseDTO);
+        return mapToExpenseResponse(expenseDTO);
     }
 
     /**
@@ -84,13 +83,18 @@ public class ExpenseController {
     /**
      * It will update the expense details to database
      * 
-     * @param updateRequest
+     * @param updateRequest`
      * @param expenseId
      * @return ExpenseResponse
      */
     @PutMapping("/expenses/{expenseId}")
-    public ExpenseResponse updateExpenseDetails(@Valid @RequestBody ExpenseRequest updateRequest) {
-        return null;
+    public ExpenseResponse updateExpenseDetails(@Valid @RequestBody ExpenseRequest updateRequest,
+            @PathVariable String expenseId) {
+        log.info("API PUT /expenses/{} request body {}", expenseId, updateRequest);
+        ExpenseDTO updatedExpenseDTO = mapToExpenseDTO(updateRequest);
+        updatedExpenseDTO = expenseService.updateExpenseDetails(updatedExpenseDTO, expenseId);
+        log.info("Printing the updated expense dto details {}", updatedExpenseDTO);
+        return mapToExpenseResponse(updatedExpenseDTO);
     }
 
     /**

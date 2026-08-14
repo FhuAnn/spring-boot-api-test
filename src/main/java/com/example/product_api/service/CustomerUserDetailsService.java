@@ -2,6 +2,7 @@ package com.example.product_api.service;
 
 import java.util.ArrayList;
 
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,10 +22,9 @@ public class CustomerUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // ProfileEntity profile = profileRepository.findByEmail(email)
-        //         .orElseThrow(() -> new UsernameNotFoundException("Profile not found for the email " + email));
-        // log.info("Inside loadUserByUsername()::: priting the profile details {}", profile);
-        // return new User(profile.getEmail(), profile.getPassword(), new ArrayList<>());
-        return null;
+        ProfileEntity profile = profileRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Profile not found for the email " + email));
+        log.info("Inside loadUserByUsername()::: priting the profile details {}", profile);
+        return new User(profile.getEmail(), profile.getPassword(), new ArrayList<>());
     }
 }
