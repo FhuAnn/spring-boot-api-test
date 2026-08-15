@@ -13,6 +13,7 @@ import com.example.product_api.io.ProfileResponse;
 import com.example.product_api.service.CustomerUserDetailsService;
 import com.example.product_api.service.ProfileService;
 import com.example.product_api.service.TokenBlacklistService;
+import com.example.product_api.service.impl.ProfileServiceImpl;
 import com.example.product_api.util.JwtTokenUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +35,7 @@ public class AuthController {
     private final ModelMapper modelMapper;
     private final AuthenticationManager authenticationManager;
     private final TokenBlacklistService tokenBlacklistService;
-    private final ProfileService profileService;
+    private final ProfileServiceImpl profileService;
     private final CustomerUserDetailsService userDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
 
