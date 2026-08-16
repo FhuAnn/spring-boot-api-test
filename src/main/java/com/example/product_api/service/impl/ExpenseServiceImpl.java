@@ -75,7 +75,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     /**
      * Mapper method to map values from Expense dto to Expense entity
-     * 
+     *
      * @param expenseDTO
      * @return ExpenseEntity
      */

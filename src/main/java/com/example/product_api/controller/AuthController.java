@@ -11,7 +11,6 @@ import com.example.product_api.io.AuthResponse;
 import com.example.product_api.io.ProfileRequest;
 import com.example.product_api.io.ProfileResponse;
 import com.example.product_api.service.CustomerUserDetailsService;
-import com.example.product_api.service.ProfileService;
 import com.example.product_api.service.TokenBlacklistService;
 import com.example.product_api.service.impl.ProfileServiceImpl;
 import com.example.product_api.util.JwtTokenUtil;

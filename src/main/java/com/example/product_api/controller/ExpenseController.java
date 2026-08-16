@@ -41,7 +41,6 @@ public class ExpenseController {
         log.info("API GET /expenses called");
 
         // Call the service method
-
         List<ExpenseDTO> list = expenseService.getAllExpenses();
         log.info("Printing the data from service {}", list);
         // Convert the Expense DTO to Expense Response
