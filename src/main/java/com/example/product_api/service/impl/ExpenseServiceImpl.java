@@ -14,6 +14,11 @@ import com.example.product_api.service.ExpenseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * Service implementation for Expense module
+ * @author FhuAnn
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -21,6 +26,12 @@ public class ExpenseServiceImpl implements ExpenseService {
     private final ExpenseRepository expenseRepository;
     private final ModelMapper modelMapper;
     private final AuthService authService;
+
+
+    /**
+     * It will fetch the expenses from database
+     * @return list
+     */
 
     @Override
     public List<ExpenseDTO> getAllExpenses() {

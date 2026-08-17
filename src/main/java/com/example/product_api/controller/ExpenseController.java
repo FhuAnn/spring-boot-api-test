@@ -15,13 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.product_api.dto.ExpenseDTO;
-import com.example.product_api.entity.ExpenseEntity;
-import com.example.product_api.entity.ProfileEntity;
 import com.example.product_api.io.ExpenseRequest;
 import com.example.product_api.io.ExpenseResponse;
-import com.example.product_api.repositories.ExpenseRepository;
 import com.example.product_api.service.ExpenseService;
-import com.example.product_api.service.impl.ExpenseServiceImpl;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/**
+ * This is controller class for Expense module
+ * 
+ * @author FhuAnn
+ */
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -36,6 +37,12 @@ public class ExpenseController {
     private final ExpenseService expenseService;
     private final ModelMapper modelMapper;
 
+    /**
+     * It will fetch the expenses from the database
+     * 
+     * @return List<ExpenseResponse>
+     * @ResponseStatus(HttpStatus.OK)
+     */
     @GetMapping("/expenses")
     public List<ExpenseResponse> getExpenses() {
         log.info("API GET /expenses called");

@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.product_api.service.CustomerUserDetailsService;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+import jakarta.servlet.DispatcherType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -41,15 +41,17 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/login", "/register").permitAll();
+                    auth.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll();
+                    auth.requestMatchers("/api/v1/login", "/api/v1/register").permitAll();
                     auth.anyRequest().authenticated();
                 })
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(withDefaults()).build();
+                // .httpBasic(httpBasic -> httpBasic.disable())
+                // .formLogin(form -> form.disable())
+                .build();
     }
 
     @Bean
-    public DaoAuthenticationProvider autheticationProvider() {
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(customerDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
