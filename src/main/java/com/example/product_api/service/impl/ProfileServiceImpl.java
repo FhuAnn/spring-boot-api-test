@@ -35,6 +35,7 @@ public class ProfileServiceImpl implements ProfileService {
         if (profileRepository.existsByEmail(profileDTO.getEmail())) {
             throw new ItemExistsException("Profile already exists " + profileDTO.getEmail());
         }
+        log.info("Check exist email successfully");
         profileDTO.setPassword(encoder.encode(profileDTO.getPassword()));
         ProfileEntity profileEntity = mapToProfileEntity(profileDTO);
         profileEntity.setProfileId(UUID.randomUUID().toString());
@@ -63,4 +64,5 @@ public class ProfileServiceImpl implements ProfileService {
     private ProfileEntity mapToProfileEntity(ProfileDTO profileDTO) {
         return modelMapper.map(profileDTO, ProfileEntity.class);
     }
+
 }

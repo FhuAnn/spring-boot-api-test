@@ -12,10 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.example.product_api.service.CustomerUserDetailsService;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+import jakarta.servlet.DispatcherType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -41,15 +42,20 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
+                    auth.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll();
                     auth.requestMatchers("/login", "/register").permitAll();
                     auth.anyRequest().authenticated();
                 })
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(withDefaults()).build();
+                .addFilterBefore(
+                        jwtRequestFilter(),
+                        UsernamePasswordAuthenticationFilter.class)
+                // .httpBasic(httpBasic -> httpBasic.disable())
+                // .formLogin(form -> form.disable())
+                .build();
     }
 
     @Bean
-    public DaoAuthenticationProvider autheticationProvider() {
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(customerDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
