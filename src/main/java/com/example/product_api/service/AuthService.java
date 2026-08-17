@@ -1,5 +1,8 @@
 package com.example.product_api.service;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.product_api.entity.ProfileEntity;
@@ -15,7 +18,9 @@ public class AuthService {
     private final ProfileRepository profileRepository;
 
     public ProfileEntity getLoggedInProfile() {
-        // TODO: Implement this method
-        return null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final String email = authentication.getName();
+        return profileRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Profile not found for the email " + email));
     }
 }

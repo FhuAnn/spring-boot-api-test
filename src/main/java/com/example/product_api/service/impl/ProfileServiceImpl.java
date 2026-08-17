@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ProfileServiceImpl implements ProfileService {
     private final ProfileRepository profileRepository;
     private final ModelMapper modelMapper;
-    // private final PasswordEncoder encoder;;
+    private final PasswordEncoder encoder;;
 
     /**
      * It will save the user details to database
@@ -35,7 +35,8 @@ public class ProfileServiceImpl implements ProfileService {
         if (profileRepository.existsByEmail(profileDTO.getEmail())) {
             throw new ItemExistsException("Profile already exists " + profileDTO.getEmail());
         }
-        // profileDTO.setPassword(encoder.encode(profileDTO.getPassword()));
+        log.info("Check exist email successfully");
+        profileDTO.setPassword(encoder.encode(profileDTO.getPassword()));
         ProfileEntity profileEntity = mapToProfileEntity(profileDTO);
         profileEntity.setProfileId(UUID.randomUUID().toString());
         profileEntity = profileRepository.save(profileEntity);
@@ -63,4 +64,5 @@ public class ProfileServiceImpl implements ProfileService {
     private ProfileEntity mapToProfileEntity(ProfileDTO profileDTO) {
         return modelMapper.map(profileDTO, ProfileEntity.class);
     }
+
 }
