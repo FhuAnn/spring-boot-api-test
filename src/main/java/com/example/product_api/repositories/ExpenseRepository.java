@@ -19,5 +19,5 @@ public interface ExpenseRepository extends JpaRepository<ExpenseEntity, Long> {
 
     List<ExpenseEntity> findByOwnerId(Long ownerId);
 
-    Optional<ExpenseEntity> findByIdAndOwnerId(Long id, Long ownerId);
+    Optional<ExpenseEntity> findByOwnerIdAndExpenseId(Long id, String expenseId);
 }
